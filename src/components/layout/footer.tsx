@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Bot } from 'lucide-react';
+import { Bot, Github } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -9,9 +9,12 @@ export default function Footer() {
           <Bot className="h-5 w-5 text-primary" />
           <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} VisionixAI. All rights reserved.</p>
         </div>
-        <nav className="flex gap-4 text-sm text-muted-foreground">
+        <nav className="flex items-center gap-4 text-sm text-muted-foreground">
           <Link href="#" className="transition-colors hover:text-foreground">Documentation</Link>
-          <Link href="https://github.com" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-foreground">GitHub</Link>
+          <Link href="https://github.com/VisionixAI" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 transition-colors hover:text-foreground">
+            <Github className="h-4 w-4" />
+            GitHub
+          </Link>
           <span className="hidden sm:inline">MIT License</span>
         </nav>
       </div>
