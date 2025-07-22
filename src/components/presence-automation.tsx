@@ -30,13 +30,13 @@ const preProgrammedResponses = [
 ];
 
 type Zone = {
-  id: string;
+  zoneId: string;
   isPresent: boolean;
 };
 
 export default function PresenceAutomation() {
   const [zones, setZones] = useState<Zone[]>(
-    Array.from({ length: totalZones }, (_, i) => ({ id: `zone-${i}`, isPresent: false }))
+    Array.from({ length: totalZones }, (_, i) => ({ zoneId: `zone-${i}`, isPresent: false }))
   );
   const [triggeredResponses, setTriggeredResponses] = useState<string[]>([]);
   const [isPending, startTransition] = useTransition();
@@ -54,7 +54,7 @@ export default function PresenceAutomation() {
 
   const handleZoneClick = (clickedZoneId: string) => {
     const newZones = zones.map((zone) =>
-      zone.id === clickedZoneId ? { ...zone, isPresent: !zone.isPresent } : zone
+      zone.zoneId === clickedZoneId ? { ...zone, isPresent: !zone.isPresent } : zone
     );
     setZones(newZones);
     runAutomation(newZones);
@@ -71,8 +71,8 @@ export default function PresenceAutomation() {
       <div className={`grid grid-cols-4 gap-2`}>
         {zones.map((zone) => (
           <motion.div
-            key={zone.id}
-            onClick={() => handleZoneClick(zone.id)}
+            key={zone.zoneId}
+            onClick={() => handleZoneClick(zone.zoneId)}
             className={cn(
               "relative aspect-square cursor-pointer rounded-md border-2 transition-colors",
               zone.isPresent
