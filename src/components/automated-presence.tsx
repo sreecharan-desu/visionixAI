@@ -4,8 +4,7 @@ import { presenceBasedAutomation, PresenceBasedAutomationInput } from "@/ai/flow
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { Loader, Zap } from "lucide-react";
-import { useCallback, useState, useTransition } from "react";
-import { Button } from "./ui/button";
+import { useCallback, useState, useTransition, useEffect } from "react";
 
 const ZONES_GRID_SIZE = 4;
 const totalZones = ZONES_GRID_SIZE * ZONES_GRID_SIZE;
@@ -34,7 +33,7 @@ type Zone = {
   isPresent: boolean;
 };
 
-export default function PresenceAutomation() {
+export default function AutomatedPresence() {
   const [zones, setZones] = useState<Zone[]>(
     Array.from({ length: totalZones }, (_, i) => ({ zoneId: `zone-${i}`, isPresent: false }))
   );
@@ -52,19 +51,24 @@ export default function PresenceAutomation() {
     });
   }, []);
 
-  const handleZoneClick = (clickedZoneId: string) => {
-    const newZones = zones.map((zone) =>
-      zone.zoneId === clickedZoneId ? { ...zone, isPresent: !zone.isPresent } : zone
-    );
-    setZones(newZones);
-    runAutomation(newZones);
-  };
+  useEffect(() => {
+    const updateRandomZone = () => {
+      setZones(prevZones => {
+        const newZones = [...prevZones];
+        const randomIndex = Math.floor(Math.random() * totalZones);
+        newZones[randomIndex] = {
+          ...newZones[randomIndex],
+          isPresent: !newZones[randomIndex].isPresent,
+        };
+        runAutomation(newZones);
+        return newZones;
+      });
+    };
 
-  const handleClear = () => {
-    const clearedZones = zones.map(zone => ({ ...zone, isPresent: false }));
-    setZones(clearedZones);
-    setTriggeredResponses([]);
-  }
+    const interval = setInterval(updateRandomZone, 1500);
+    return () => clearInterval(interval);
+  }, [runAutomation]);
+
 
   return (
     <div className="flex h-full flex-col gap-4">
@@ -72,15 +76,12 @@ export default function PresenceAutomation() {
         {zones.map((zone) => (
           <motion.div
             key={zone.zoneId}
-            onClick={() => handleZoneClick(zone.zoneId)}
             className={cn(
-              "relative aspect-square cursor-pointer rounded-md border-2 transition-colors",
+              "relative aspect-square rounded-md border-2 transition-colors",
               zone.isPresent
                 ? "border-primary bg-primary/20"
-                : "border-border bg-transparent hover:bg-muted"
+                : "border-border bg-transparent"
             )}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
           >
             <AnimatePresence>
             {zone.isPresent && (
@@ -100,10 +101,9 @@ export default function PresenceAutomation() {
       <div className="flex-grow rounded-lg border border-dashed border-border bg-background p-4">
         <div className="flex items-center justify-between">
             <h4 className="font-semibold text-muted-foreground">Triggered Responses</h4>
-            <Button variant="ghost" size="sm" onClick={handleClear} disabled={!zones.some(z => z.isPresent)}>Clear</Button>
         </div>
         <div className="mt-2 h-32 overflow-y-auto">
-            {isPending ? (
+            {isPending && triggeredResponses.length === 0 ? (
             <div className="flex h-full items-center justify-center text-muted-foreground">
                 <Loader className="mr-2 h-4 w-4 animate-spin" />
                 <span>Analyzing presence...</span>
@@ -125,7 +125,7 @@ export default function PresenceAutomation() {
             </ul>
             ) : (
             <div className="flex h-full items-center justify-center text-muted-foreground">
-                <p className="text-sm">No presence detected. Click a zone to begin.</p>
+                <p className="text-sm">No presence detected. Waiting for activity...</p>
             </div>
             )}
         </div>

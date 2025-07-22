@@ -1,4 +1,4 @@
-import PresenceAutomation from '@/components/presence-automation';
+import AutomatedPresence from '@/components/automated-presence';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { CheckCircle } from 'lucide-react';
 
@@ -34,10 +34,10 @@ export default function FeaturesSection() {
         <Card className="flex flex-col bg-card/70 backdrop-blur-sm">
           <CardHeader>
             <CardTitle>Live Automation Demo</CardTitle>
-            <CardDescription>Click on zones to simulate presence and see AI-driven responses.</CardDescription>
+            <CardDescription>An automated demonstration of presence detection and AI-driven responses.</CardDescription>
           </CardHeader>
           <CardContent className="flex-grow">
-            <PresenceAutomation />
+            <AutomatedPresence />
           </CardContent>
         </Card>
       </div>
