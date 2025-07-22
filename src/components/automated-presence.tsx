@@ -41,6 +41,7 @@ export default function AutomatedPresence() {
   const [isPending, startTransition] = useTransition();
 
   const runAutomation = useCallback((currentZones: Zone[]) => {
+    if (currentZones.every(z => !z.isPresent)) return;
     startTransition(async () => {
       const input: PresenceBasedAutomationInput = {
         zoneDetections: currentZones,
@@ -52,7 +53,7 @@ export default function AutomatedPresence() {
   }, []);
 
   useEffect(() => {
-    const updateRandomZone = () => {
+    const interval = setInterval(() => {
       setZones(prevZones => {
         const newZones = [...prevZones];
         const randomIndex = Math.floor(Math.random() * totalZones);
@@ -60,14 +61,15 @@ export default function AutomatedPresence() {
           ...newZones[randomIndex],
           isPresent: !newZones[randomIndex].isPresent,
         };
-        runAutomation(newZones);
         return newZones;
       });
-    };
-
-    const interval = setInterval(updateRandomZone, 1500);
+    }, 1500);
     return () => clearInterval(interval);
-  }, [runAutomation]);
+  }, []);
+
+  useEffect(() => {
+    runAutomation(zones);
+  }, [zones, runAutomation]);
 
 
   return (
