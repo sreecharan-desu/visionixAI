@@ -9,8 +9,6 @@ import mermaid from 'mermaid';
 import { X, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
 import { saveAs } from 'file-saver';
 
-
-
 const MermaidDialog = ({ chart, isOpen, onClose }: { chart: string; isOpen: boolean; onClose: () => void }) => {
   const [zoom, setZoom] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -179,9 +177,18 @@ const Mermaid = ({ chart }: { chart: string }) => {
   const [svg, setSvg] = useState('');
 
   useEffect(() => {
+    if (!chart || typeof chart !== 'string') {
+      console.error('Invalid chart data:', chart);
+      setSvg('<p class="text-red-500">Invalid chart data</p>');
+      return;
+    }
+
     mermaid
       .render(`mermaid-diagram-${Date.now()}`, chart)
-      .then(({ svg: renderedSvg }) => setSvg(renderedSvg))
+      .then(({ svg: renderedSvg }) => {
+        console.log('Mermaid render result:', renderedSvg);
+        setSvg(renderedSvg);
+      })
       .catch((error) => {
         console.error('Mermaid rendering failed:', error);
         setSvg('<p class="text-red-500">Error rendering diagram</p>');
@@ -284,16 +291,9 @@ const MarkdownRenderer = ({ content }: { content: string }) => {
           em: ({ children }) => <em className="italic text-gray-300">{children}</em>,
           code({ node, className, children, ...props }) {
             const match = /language-(\w+)/.exec(className || '');
-            // Use node.data.meta or node.value for raw content
 
-            let codeContent = '';
-            if (Array.isArray(node?.children)) {
-              codeContent = node.children
-                .map((child: any) => (typeof child === 'string' ? child : child.value || ''))
-                .join('');
-            } else {
-              codeContent = Array.isArray(children) ? children.join('') : String(children);
-            }
+            // Use children for raw content
+            let codeContent = Array.isArray(children) ? children.join('') : String(children);
             codeContent = codeContent.trim();
 
             console.log('Code block node:', node, 'Children:', children, 'Processed content:', codeContent);
@@ -333,7 +333,9 @@ const MarkdownRenderer = ({ content }: { content: string }) => {
 
 const DocsPage = () => {
   const [markdownContent, setMarkdownContent] = useState('');
-  // Centralized Mermaid initialization
+
+
+// Centralized Mermaid initialization
 useEffect(() => {
   mermaid.initialize({
     startOnLoad: false,
@@ -371,7 +373,6 @@ useEffect(() => {
       // Keep default content if import fails
     }
   }, []);
-
   return (
     <div className="min-h-screen bg-black">
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:2rem_2rem] pointer-events-none" />
