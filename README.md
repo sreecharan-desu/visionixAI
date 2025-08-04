@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# VisionixAI
 
-First, run the development server:
+**Zone-Based Computer Vision Automation**  
+Smart actions through visual presence detection — no sensors, just sight.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Overview
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**VisionixAI** is a computer vision automation platform that detects human presence in spatial zones and automates device control — without relying on physical sensors like PIR or IR.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Designed for classrooms, offices, and smart spaces, VisionixAI helps conserve energy by automatically controlling devices based on human presence in predefined zones.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## How It Works
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Divide a physical space into grid-based visual zones.
+2. Stream video input via the CLI or connected camera.
+3. Detect human presence in each zone using AI models.
+4. Trigger device actions based on occupancy state.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Example: If a zone remains unoccupied for a few seconds, lights and fans are turned off. When someone enters, power is restored.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Components (In Development)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Component      | Description                                                                 |
+|----------------|-----------------------------------------------------------------------------|
+| CLI Tool       | Streams video, detects zones, and emits presence signals.                  |
+| Core CV Model  | Real-time zone occupancy detection using YOLO or MediaPipe.                |
+| API Layer      | REST API to enable integrations with apps, dashboards, and IoT hardware.   |
+
+---
+
+## Use Cases
+
+- Smart classrooms that shut down systems when students leave.
+- Office environments with automated lighting per room or desk.
+- Integration with IoT systems for real-time, camera-based presence detection.
+
+---
+
+## Tech Stack
+
+- Computer Vision: YOLOv8, MediaPipe
+- Backend: Python / Node.js (API layer)
+- CLI Tool: Node.js or Shell-based interface
+- DevOps: Dockerized pipeline and CI workflows
+
+---
+
+## Installation & Usage (Coming Soon)
+

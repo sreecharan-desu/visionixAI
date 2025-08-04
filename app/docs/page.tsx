@@ -9,7 +9,6 @@ import mermaid from 'mermaid';
 import { X, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
 import { saveAs } from 'file-saver';
 
-
 const MermaidDialog = ({ chart, isOpen, onClose }: { chart: string; isOpen: boolean; onClose: () => void }) => {
   const [zoom, setZoom] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -292,6 +291,7 @@ const MarkdownRenderer = ({ content }: { content: string }) => {
           em: ({ children }) => <em className="italic text-gray-300">{children}</em>,
           code({ node, className, children, ...props }) {
             const match = /language-(\w+)/.exec(className || '');
+
             // Use children for raw content
             let codeContent = Array.isArray(children) ? children.join('') : String(children);
             codeContent = codeContent.trim();
@@ -335,7 +335,6 @@ const DocsPage = () => {
   const [markdownContent, setMarkdownContent] = useState('');
 
 
-
 // Centralized Mermaid initialization
 useEffect(() => {
   mermaid.initialize({
@@ -374,7 +373,6 @@ useEffect(() => {
       // Keep default content if import fails
     }
   }, []);
-
   return (
     <div className="min-h-screen bg-black">
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:2rem_2rem] pointer-events-none" />
