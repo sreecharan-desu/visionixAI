@@ -1,11 +1,13 @@
 
 "use client";
 
+
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import DemoSection from "@/components/DemoSection";
 import Footer from "@/components/Footer";
 import DocsPage from "./docs/page";
+
 
 export default function VisionixAI() {
   // Smooth scroll helpers
@@ -25,6 +27,7 @@ export default function VisionixAI() {
       <Navbar scrollTo={scrollTo} scrollToTop={scrollToTop} />
       <HeroSection scrollTo={scrollTo} />
       <DemoSection />
+
       <section id="docs" className="bg-black px-6 py-20">
         <DocsPage />
       </section>
