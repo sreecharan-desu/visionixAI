@@ -24,7 +24,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="underline hover:text-white transition"
           >
-            Sreecharan Desu
+            SreeCharan Desu
           </a>
         </div>
 
