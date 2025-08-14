@@ -40,7 +40,7 @@ export default function Navbar({ scrollTo, scrollToTop }:any) {
           </motion.button>
           <motion.button
             onClick={() => scrollTo("docs")}
-            className="text-lg font-medium text-white/70 hover:text-white transition-all duration-300"
+            className="text-lg font-medium text-white/70 hover:text-white transition-all duration-300 cursor-pointer"
             whileHover={{ scale: 1.05, color: "#FFFFFF" }}
           >
             Docs
